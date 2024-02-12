@@ -28,6 +28,7 @@ from launch_ros.events.lifecycle import ChangeState
 import launch.events
 import lifecycle_msgs.msg
 
+
 def generate_launch_description():
     # Get the launch directory
     nav2_bringup_dir = get_package_share_directory('nav2_bringup')
@@ -43,7 +44,7 @@ def generate_launch_description():
     world = LaunchConfiguration('world')
     remappings = [('/tf', 'tf'),
                   ('/tf_static', 'tf_static')]
-    
+
     declare_namespace_cmd = DeclareLaunchArgument(
         'namespace',
         default_value='',
@@ -96,10 +97,9 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}],
         remappings=remappings,
         arguments=[urdf])
-    
 
     pcl2laser_cmd = LifecycleNode(
-        package='pointcloud_to_laserscan', 
+        package='pointcloud_to_laserscan',
         executable='pointcloud_to_laserscan_managed',
         name='pointcloud_to_laser',
         remappings=[('cloud_in', '/intel_realsense_r200_depth/points'),
@@ -137,7 +137,7 @@ def generate_launch_description():
         package='mros_contingencies_sim',
         executable='battery_contingency_sim_node',
         output='screen')
-    
+
     components_file_path = (get_package_share_directory('mros_modes_observer') +
         '/params/components.yaml')
 
@@ -146,7 +146,7 @@ def generate_launch_description():
         executable='modes_observer_node',
         parameters=[{'componentsfile': components_file_path}],
         output='screen')
-    
+
     emit_event_to_request_that_laser_resender_configure_transition = EmitEvent(
         event=ChangeState(
             lifecycle_node_matcher=launch.events.matches_action(laser_resender_cmd),
@@ -182,7 +182,7 @@ def generate_launch_description():
 
     # Add system modes manager
     ld.add_action(mode_manager_node)
-    
+
     # Add system modes observer node
     ld.add_action(modes_observer_node)
 
