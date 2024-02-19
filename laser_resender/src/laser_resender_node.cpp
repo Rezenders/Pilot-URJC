@@ -35,7 +35,7 @@ public:
   LaserResender()
   : rclcpp_lifecycle::LifecycleNode("laser_resender")
   {
-    declare_parameter("node_name");
+    declare_parameter("node_name", "laser_resender");
     pub_ = create_publisher<sensor_msgs::msg::LaserScan>("/mros_scan", rclcpp::SensorDataQoS());
     sub_ = create_subscription<sensor_msgs::msg::LaserScan>(
       "/scan",
